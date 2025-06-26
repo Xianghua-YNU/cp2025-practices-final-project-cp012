@@ -46,4 +46,14 @@ def run_temperature_sweep(size=20, min_T=0.1, max_T=4.0, num_T=20, mc_steps=5000
 
     return temperatures, avg_magnetizations, susceptibilities, avg_energies, heat_capacities
 if __name__ == "__main__":
-    run_simulation()
+    size = 20  # 晶格尺寸
+    min_T = 0.1  # 最低温度
+    max_T = 4.0  # 最高温度
+    num_T = 30  # 温度点数
+    mc_steps = 10000  # 每个温度点的蒙特卡洛步数
+
+    # 运行温度扫描
+    results = run_temperature_sweep(size, min_T, max_T, num_T, mc_steps)
+
+    # 绘制结果
+    plot_results(*results)
