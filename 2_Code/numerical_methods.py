@@ -3,19 +3,19 @@
 """
 import numpy as np
 
-def solve_ode(initial_conditions, time_points):
-    """
-    示例：常微分方程求解器。
-    """
-    print("Solving ODE...")
-    # 这里是数值求解算法的实现
-    # 例如：欧拉法、龙格-库塔法等
-    solution = np.zeros((len(time_points), len(initial_conditions)))
-    solution[0] = initial_conditions
-    # 假设一个简单的增长模型
-    # for i in range(1, len(time_points)):
-    #     dt = time_points[i] - time_points[i-1]
-    #     solution[i] = solution[i-1] + dt * solution[i-1] * 0.1 # 简单的指数增长
+def metropolis_step(self):
+    """执行一次Metropolis蒙特卡洛步"""
+    # 随机选择一个自旋
+    i, j = np.random.randint(0, self.size, 2)
+    # 计算翻转前后的能量变化
+    neighbor_sum = self.spins[(i + 1) % self.size, j] + self.spins[(i - 1) % self.size, j] + \
+                    self.spins[i, (j + 1) % self.size] + self.spins[i, (j - 1) % self.size]
+    delta_E = 2 * self.J * self.spins[i, j] * neighbor_sum + 2 * self.H * self.spins[i, j]
+    # 判断是否接受翻转
+    if delta_E < 0 or np.random.rand() < np.exp(-delta_E / self.T):
+        self.spins[i, j] *= -1
+        self.energy += delta_E
+        self.magnetization += 2 * self.spins[i, j]
     return solution
 
 # 可以添加更多数值方法，如积分、求根、矩阵运算等
